@@ -1,4 +1,4 @@
-# FAST Variant Group FASTA Splitter
+# 🧬 FAST Variant Group FASTA Splitter
 
 ## Overview
 
