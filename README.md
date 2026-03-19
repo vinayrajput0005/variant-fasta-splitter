@@ -6,43 +6,112 @@ This tool splits large SARS-CoV-2 FASTA datasets (e.g., GISAID) into variant-spe
 
 It is optimized for:
 
-* Very large datasets (millions of sequences)
-* High-performance computing (HPC)
-* Low memory usage (streaming)
-* Fast execution (buffered I/O)
+* ⚡ Very large datasets (millions of sequences)
+* 💻 HPC environments
+* 📦 Low memory usage (streaming)
+* 🚀 Fast execution (buffered I/O)
 
 ---
 
-## Features
+## 📥 Data Download Guide
 
-* ⚡ Fast processing of large FASTA files
-* 📦 Supports gzipped input/output
-* 🧬 Variant grouping using PANGO lineage definitions
-* 📊 Progress bar for monitoring
-* 💻 HPC-friendly
+### 1️⃣ GISAID FASTA Sequences
 
----
+🔗 https://www.gisaid.org/
 
-## Installation
+#### Steps:
 
-Clone the repository:
+1. Login to your GISAID account
+2. Go to **EpiCoV Database**
+3. Apply filters (optional):
 
-```bash
-git clone https://github.com/<your-username>/variant-fasta-splitter.git
-cd variant-fasta-splitter
+   * Host: Human
+   * Complete sequences
+   * High coverage
+4. Click **Download packages → FASTA**
+
+You will get a file like:
+
+```
+gisaid_epicov_*.fasta
 ```
 
-Install dependencies:
+(Optional) Compress:
 
-```bash
+```
+gzip gisaid_epicov_*.fasta
+```
+
+Rename (recommended):
+
+```
+mv gisaid_epicov_*.fasta.gz data/gisaid.fa.gz
+```
+
+---
+
+### 2️⃣ PANGO Lineage File
+
+🔗 https://github.com/cov-lineages/pango-designation
+
+#### Download:
+
+```
+git clone https://github.com/cov-lineages/pango-designation.git
+```
+
+File used:
+
+```
+pango-designation/lineages.csv
+```
+
+---
+
+### 3️⃣ Variant Groups File
+
+Example format:
+
+```
+variant_group    pango_lineages
+Alpha            B.1.1.7,Q.4,Q.8,Q.6,Q.1
+Delta            B.1.617.2,AY.1,AY.2
+Omicron          BA.1,BA.2,BA.5,XBB
+```
+
+Save as:
+
+```
+data/variant_groups.tsv
+```
+
+---
+
+## 📂 Recommended Directory Structure
+
+```
+data/
+├── gisaid.fa.gz
+├── variant_groups.tsv
+└── pango-designation/
+    └── lineages.csv
+```
+
+---
+
+## ⚙️ Installation
+
+```
+git clone https://github.com/<your-username>/variant-fasta-splitter.git
+cd variant-fasta-splitter
 pip install -r requirements.txt
 ```
 
 ---
 
-## Usage
+## ▶️ Usage
 
-```bash
+```
 python scripts/split_fasta_variant_groups_fast.py \
 -f data/gisaid.fa.gz \
 -v data/variant_groups.tsv \
@@ -52,28 +121,28 @@ python scripts/split_fasta_variant_groups_fast.py \
 
 ---
 
-## Input Files
+## 📂 Input Files (Detailed)
 
-### 1. FASTA file
+### FASTA file (`-f`)
 
-* SARS-CoV-2 sequences (gzipped or plain)
-
-### 2. Variant Groups (TSV)
-
-Format:
+* GISAID sequences (.fa or .fa.gz)
+* Header format:
 
 ```
-variant_group    pango_lineages
-Alpha            B.1.1.7,Q.4,Q.8,Q.6,Q.1
+>hCoV-19/India/XYZ/2021|EPI_ISL_123456|2021-05-01
 ```
 
-### 3. PANGO lineage file
+### Variant groups (`-v`)
 
-* From: https://github.com/cov-lineages/pango-designation
+* TSV file mapping lineages to variant groups
+
+### Lineages file (`-l`)
+
+* PANGO lineage mapping file (`lineages.csv`)
 
 ---
 
-## Output
+## 📤 Output
 
 ```
 outputs/fasta_lineages/
@@ -84,11 +153,21 @@ Omicron.fa.gz
 ...
 ```
 
+Each file contains sequences belonging to a specific variant group.
+
 ---
 
-## Performance
+## ⚠️ Notes
 
-| Dataset Size  | Runtime |
+* GISAID data access requires registration
+* Do not redistribute raw GISAID data
+* Always acknowledge GISAID contributors
+
+---
+
+## ⚡ Performance
+
+| Dataset       | Runtime |
 | ------------- | ------- |
 | 1M sequences  | ~30 sec |
 | 10M sequences | ~5 min  |
@@ -96,32 +175,23 @@ Omicron.fa.gz
 
 ---
 
-## Method
+## 🧬 Method
 
 Sequences are assigned to variant groups by:
 
-1. Mapping FASTA headers to PANGO lineage (lineages.csv)
+1. Mapping FASTA headers to PANGO lineage
 2. Mapping lineage to variant group
 3. Writing sequences using buffered I/O
 
 ---
 
-## Citation
-
-If you use this tool, please cite:
-
-> Rajput V., Fast variant-group FASTA splitting for genomic surveillance (2026)
-
----
-
-## License
+## 📜 License
 
 MIT License
 
 ---
 
-## Author
+## 👤 Author
 
 Vinay Rajput
 National Institute of Virology (NIV), Pune
-
