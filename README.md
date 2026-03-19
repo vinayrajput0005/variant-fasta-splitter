@@ -1,6 +1,7 @@
 # 🧬 FAST Variant Group FASTA Splitter
 
 ## Overview
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/2014ffea-e121-46f4-8583-dc1dd8158ac3" />
 
 This tool splits large SARS-CoV-2 FASTA datasets (e.g., GISAID) into variant-specific FASTA files using PANGO lineage definitions and custom variant group mappings.
 
